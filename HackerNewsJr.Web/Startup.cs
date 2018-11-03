@@ -1,10 +1,15 @@
+using AutoMapper;
+using HackerNewsJr.App.Interfaces.Infrastructure.Http;
+using HackerNewsJr.App.Interfaces.Services;
+using HackerNewsJr.Infrastructure.Http;
+using HackerNewsJr.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace HackerNewsJr.Web
 {
@@ -20,6 +25,11 @@ namespace HackerNewsJr.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
+            services.AddTransient<IHackerNewsStoryService, HackerNewsStoryService>();
+            services.AddTransient<IJsonAPIClient, JsonAPIClient>();
+            services.AddTransient<HttpClient>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the React files will be served from this directory
