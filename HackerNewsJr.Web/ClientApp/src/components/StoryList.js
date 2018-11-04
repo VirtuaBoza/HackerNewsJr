@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Highligher from 'react-highlight-words';
 
 class StoryList extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class StoryList extends Component {
   }
 
   render() {
-    const { stories } = this.props;
+    const { stories, searchString } = this.props;
 
     return (
       <table
@@ -37,7 +38,11 @@ class StoryList extends Component {
                   </td>
                   <td className="title">
                     <a href={story.url} className="storylink">
-                      {story.title}
+                      <Highligher
+                        highlightClassName="highlighted"
+                        searchWords={[searchString]}
+                        textToHighlight={story.title}
+                      />
                     </a>
                   </td>
                 </tr>
@@ -60,9 +65,15 @@ class StoryList extends Component {
           <tr>
             <td />
             <td className="title">
-              <a href="#" className="morelink" onClick={this.handleMoreClick}>
-                More
-              </a>
+              {stories.length > 30 * (this.state.set + 1) && (
+                <span
+                  className="morelink"
+                  style={{ cursor: 'pointer' }}
+                  onClick={this.handleMoreClick}
+                >
+                  More
+                </span>
+              )}
             </td>
           </tr>
         </tbody>

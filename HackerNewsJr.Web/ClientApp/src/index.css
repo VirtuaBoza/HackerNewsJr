@@ -361,6 +361,10 @@ pre {
   max-width: 900px;
 }
 
+.highlighted {
+  background-color: #ffff00;
+}
+
 @media only screen and (min-width: 300px) and (max-width: 389px) {
   .comment {
     max-width: 270px;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StoryList from './components/StoryList';
+import filterObjects from './helpers/filterObjects';
 
 export default class App extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export default class App extends Component {
 
         this.setState({
           stories: validStories,
-          filteredStories: this.filterStories(
+          filteredStories: filterObjects(
             validStories,
             this.state.searchString,
             ['title'],
@@ -52,26 +53,11 @@ export default class App extends Component {
       });
   }
 
-  filterStories(validStories, searchString, fields) {
-    searchString = searchString.toLowerCase();
-
-    return validStories.filter(story => {
-      let found;
-      fields.forEach(field => {
-        const value = story[field].toLowerCase();
-        if (value.includes(searchString)) {
-          found = true;
-        }
-      });
-      return found;
-    });
-  }
-
   handleSearchChange(event) {
     const searchString = event.target.value;
     this.setState({
       searchString,
-      filteredStories: this.filterStories(this.state.stories, searchString, [
+      filteredStories: filterObjects(this.state.stories, searchString, [
         'title',
       ]),
     });
@@ -103,7 +89,10 @@ export default class App extends Component {
                   ) : this.state.loadingError ? (
                     `This isn't going to work out, bud.`
                   ) : (
-                    <StoryList stories={this.state.filteredStories} />
+                    <StoryList
+                      stories={this.state.filteredStories}
+                      searchString={this.state.searchString}
+                    />
                   )}
                 </td>
               </tr>
