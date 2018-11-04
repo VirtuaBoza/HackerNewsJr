@@ -10,15 +10,6 @@ describe('App', () => {
     );
   });
 
-  it('renders without crashing', () => {
-    // Arrange
-    const div = document.createElement('div');
-
-    // Act
-    // Assert
-    ReactDOM.render(<App />, div);
-  });
-
   it('Renders loading message while loading', () => {
     // Arrange
     const wrapper = shallow(<App />);
@@ -32,14 +23,13 @@ describe('App', () => {
     expect(wrapper.find('#StoryList').length).toBe(0);
   });
 
-  it('Renders error message if loadNewStories fails', async () => {
+  it('Renders error message when loadingError is set', () => {
     // Arrange
     fetch.mockResponse(JSON.stringify({}), { status: 500 });
     const wrapper = shallow(<App />);
 
     // Act
-    await wrapper.instance().componentDidMount();
-    wrapper.update();
+    wrapper.setState({ loading: false, loadingError: new Error() });
 
     // Assert
     expect(wrapper.find('#LoadingMessage').length).toBe(0);
@@ -47,13 +37,12 @@ describe('App', () => {
     expect(wrapper.find('#StoryList').length).toBe(0);
   });
 
-  it('Renders StoryList when loadNewStories succeeds', async () => {
+  it('Renders StoryList when loading completes with stories', () => {
     // Arrange
     const wrapper = shallow(<App />);
 
     // Act
-    await wrapper.instance().componentDidMount();
-    wrapper.update();
+    wrapper.setState({ loading: false, stories: [], filteredStories: [] });
 
     // Assert
     expect(wrapper.find('#LoadingMessage').length).toBe(0);
@@ -62,19 +51,37 @@ describe('App', () => {
   });
 
   describe('loadNewStories', () => {
-    it('sets stories and filteredStories in state', async () => {
+    it('sets loadingError in state on fail', () => {
+      // Arrange
+      fetch.mockResponse(JSON.stringify({}), { status: 500 });
+      const wrapper = shallow(<App />);
+
+      // Act
+      return wrapper
+        .instance()
+        .loadNewStories()
+        .then(() => {
+          // Assert
+          expect(wrapper.state().loadingError).toBeTruthy();
+          expect(wrapper.state().loading).toBe(false);
+        });
+    });
+
+    it('sets stories and filteredStories in state', () => {
       // Arrange
       const wrapper = shallow(<App />);
       expect(wrapper.state().stories.length).toBe(0);
       expect(wrapper.state().filteredStories.length).toBe(0);
 
       // Act
-      await wrapper.instance().componentDidMount();
-      wrapper.update();
-
-      // Assert
-      expect(wrapper.state().stories.length).toBeGreaterThan(0);
-      expect(wrapper.state().filteredStories.length).toBeGreaterThan(0);
+      return wrapper
+        .instance()
+        .loadNewStories()
+        .then(() => {
+          // Assert
+          expect(wrapper.state().stories.length).toBeGreaterThan(0);
+          expect(wrapper.state().filteredStories.length).toBeGreaterThan(0);
+        });
     });
   });
 });

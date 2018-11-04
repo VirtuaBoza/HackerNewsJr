@@ -1,7 +1,8 @@
-const fetchJson = async url => {
-  const response = await fetch(url);
-  if (response.ok) return await response.json();
-  throw response;
+const fetchJson = url => {
+  return fetch(url).then(response => {
+    if (response.ok) return Promise.resolve(response.json());
+    return Promise.reject(new Error(response.statusText));
+  });
 };
 
 export default fetchJson;

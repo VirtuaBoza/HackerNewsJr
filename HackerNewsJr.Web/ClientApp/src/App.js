@@ -22,27 +22,30 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    return this.loadNewStories();
+    this.loadNewStories();
   }
 
-  async loadNewStories() {
+  loadNewStories() {
     this.setState({ loading: true });
 
-    try {
-      const stories = await fetchJson('/api/stories/newstories/500');
-      const validStories = stories.filter(
-        story => story && story.by && story.title && story.url,
-      );
-      this.setState({
-        stories: validStories,
-        filteredStories: filterObjects(validStories, this.state.searchString, [
-          'title',
-        ]),
-        loading: false,
+    return fetchJson('/api/stories/newstories/500')
+      .then(stories => {
+        const validStories = stories.filter(
+          story => story && story.by && story.title && story.url,
+        );
+        this.setState({
+          stories: validStories,
+          filteredStories: filterObjects(
+            validStories,
+            this.state.searchString,
+            ['title'],
+          ),
+          loading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({ loading: false, loadingError: error });
       });
-    } catch (error) {
-      this.setState({ loading: false, loadingError: error });
-    }
   }
 
   handleSearchChange(event) {

@@ -22,8 +22,8 @@ describe('fetchJson', () => {
     expect(responseJson).toHaveProperty('title', 'title');
   });
 
-  it('throws response on fail', async () => {
+  it('throws Error on fail', async () => {
     fetch.mockResponse(JSON.stringify({}), { status: 500 });
-    expect(fetchJson('http://foo.bar')).rejects.toBeInstanceOf(Response);
+    expect(fetchJson('http://foo.bar')).rejects.toBeInstanceOf(Error);
   });
 });
