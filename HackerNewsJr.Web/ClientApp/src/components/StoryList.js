@@ -60,12 +60,9 @@ class StoryList extends Component {
           <tr>
             <td />
             <td className="title">
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={this.handleMoreClick}
-              >
+              <a href="#" className="morelink" onClick={this.handleMoreClick}>
                 More
-              </span>
+              </a>
             </td>
           </tr>
         </tbody>

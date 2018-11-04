@@ -30,6 +30,8 @@ namespace HackerNewsJr.Web
             services.AddTransient<IJsonAPIClient, JsonAPIClient>();
             services.AddTransient<HttpClient>();
 
+            services.AddMemoryCache();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the React files will be served from this directory

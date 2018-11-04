@@ -26,7 +26,7 @@ export default class App extends Component {
   loadNewStories() {
     this.setState({ loading: true });
 
-    fetch('/api/stories/newstories/100')
+    fetch('/api/stories/newstories/500')
       .then(response => {
         if (response.ok) return response.json();
         throw response;

@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Web", "HackerN
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.App", "HackerNewsJr.App\HackerNewsJr.App.csproj", "{486DDD11-89E7-4AF3-B4F1-474B79D843D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Services", "HackerNewsJr.Services\HackerNewsJr.Services.csproj", "{671AC6FF-63E1-4F9F-BE4E-F14177C3D1CB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Infrastructure", "HackerNewsJr.Infrastructure\HackerNewsJr.Infrastructure.csproj", "{DFA813AC-B2A2-4FC2-B3B9-3D099FD7F0AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Services.Tests", "HackerNewsJr.Services.Tests\HackerNewsJr.Services.Tests.csproj", "{716B86A8-9630-4858-9A29-84D0462DD915}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Infrastructure.Tests", "HackerNewsJr.Infrastructure.Tests\HackerNewsJr.Infrastructure.Tests.csproj", "{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19489900-388C-4510-9574-1BF968627706}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Infrastructure.Tests", "HackerNewsJr.Infrastructure.Tests\HackerNewsJr.Infrastructure.Tests.csproj", "{129AAC97-8EC4-4E59-BD65-9CE9B143500A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsJr.Services", "HackerNewsJr.Services\HackerNewsJr.Services.csproj", "{960A3136-D0C3-4B39-A2A2-2C80E540A09A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,6 @@ Global
 		{486DDD11-89E7-4AF3-B4F1-474B79D843D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486DDD11-89E7-4AF3-B4F1-474B79D843D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486DDD11-89E7-4AF3-B4F1-474B79D843D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{671AC6FF-63E1-4F9F-BE4E-F14177C3D1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{671AC6FF-63E1-4F9F-BE4E-F14177C3D1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{671AC6FF-63E1-4F9F-BE4E-F14177C3D1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{671AC6FF-63E1-4F9F-BE4E-F14177C3D1CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFA813AC-B2A2-4FC2-B3B9-3D099FD7F0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DFA813AC-B2A2-4FC2-B3B9-3D099FD7F0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA813AC-B2A2-4FC2-B3B9-3D099FD7F0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,17 +39,21 @@ Global
 		{716B86A8-9630-4858-9A29-84D0462DD915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{716B86A8-9630-4858-9A29-84D0462DD915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{716B86A8-9630-4858-9A29-84D0462DD915}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129AAC97-8EC4-4E59-BD65-9CE9B143500A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129AAC97-8EC4-4E59-BD65-9CE9B143500A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129AAC97-8EC4-4E59-BD65-9CE9B143500A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129AAC97-8EC4-4E59-BD65-9CE9B143500A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960A3136-D0C3-4B39-A2A2-2C80E540A09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960A3136-D0C3-4B39-A2A2-2C80E540A09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960A3136-D0C3-4B39-A2A2-2C80E540A09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960A3136-D0C3-4B39-A2A2-2C80E540A09A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{716B86A8-9630-4858-9A29-84D0462DD915} = {19489900-388C-4510-9574-1BF968627706}
-		{DC9060B8-8B2C-4E39-A6ED-AB0E962859BC} = {19489900-388C-4510-9574-1BF968627706}
+		{129AAC97-8EC4-4E59-BD65-9CE9B143500A} = {19489900-388C-4510-9574-1BF968627706}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3531BF91-1051-4717-A94C-1000317C55D5}

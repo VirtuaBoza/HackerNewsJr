@@ -49,7 +49,7 @@ namespace HackerNewsJr.Services.Tests
             await service.GetNewStoriesAsync(600);
 
             // Assert
-            mockApiClient.Verify(c => c.GetAsync<Item>(It.IsAny<string>()), Times.Exactly(500));
+            mockApiClient.Verify(c => c.CachedGetAsync<Item>(It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Exactly(500));
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace HackerNewsJr.Services.Tests
             await service.GetNewStoriesAsync(400);
 
             // Assert
-            mockApiClient.Verify(c => c.GetAsync<Item>(It.IsAny<string>()), Times.Exactly(400));
+            mockApiClient.Verify(c => c.CachedGetAsync<Item>(It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Exactly(400));
         }
 
         [TestMethod]
@@ -72,10 +72,10 @@ namespace HackerNewsJr.Services.Tests
             // Arrange
             mockApiClient.Setup(a => a.GetAsync<int[]>(It.IsAny<string>())).ReturnsAsync(new[] { 1, 2 });
             mockApiClient
-                .Setup(a => a.GetAsync<Item>(It.Is<string>(s => s.Contains("1"))))
+                .Setup(a => a.CachedGetAsync<Item>(It.Is<string>(s => s.Contains("1")), It.IsAny<TimeSpan>()))
                 .ReturnsAsync(new Item());
             mockApiClient
-                .Setup(a => a.GetAsync<Item>(It.Is<string>(s => s.Contains("2"))))
+                .Setup(a => a.CachedGetAsync<Item>(It.Is<string>(s => s.Contains("2")), It.IsAny<TimeSpan>()))
                 .ReturnsAsync((Item)null);
 
             // Act

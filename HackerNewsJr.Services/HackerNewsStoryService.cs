@@ -39,8 +39,9 @@ namespace HackerNewsJr.Services
             {
                 var storyId = newStoryIds[i];
                 var item =
-                    await apiClient.GetAsync<Item>(
-                        $"{hackerNewsApiUrl}/item/{storyId}.json");
+                    await apiClient.CachedGetAsync<Item>(
+                        $"{hackerNewsApiUrl}/item/{storyId}.json",
+                        TimeSpan.FromDays(30));
 
                 if (item != null)
                 {
