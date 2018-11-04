@@ -2,6 +2,7 @@ using AutoMapper;
 using HackerNewsJr.App.Interfaces.Infrastructure.Http;
 using HackerNewsJr.Services.Mappers;
 using HackerNewsJr.Services.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -14,6 +15,7 @@ namespace HackerNewsJr.Services.Tests
     public class HackerNewsStoryServiceTests
     {
         private Mock<IJsonAPIClient> mockApiClient;
+        private Mock<ILogger<HackerNewsStoryService>> mockLogger;
         private IMapper mockMapper;
         private HackerNewsStoryService service;
 
@@ -21,9 +23,13 @@ namespace HackerNewsJr.Services.Tests
         public void Setup()
         {
             mockApiClient = new Mock<IJsonAPIClient>();
+            mockLogger = new Mock<ILogger<HackerNewsStoryService>>();
             mockMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile())));
-            service = new HackerNewsStoryService(mockApiClient.Object, mockMapper);
+            service = new HackerNewsStoryService(
+                mockApiClient.Object,
+                mockMapper,
+                mockLogger.Object);
         }
 
         [TestMethod]

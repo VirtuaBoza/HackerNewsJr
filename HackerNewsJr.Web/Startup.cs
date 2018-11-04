@@ -26,10 +26,10 @@ namespace HackerNewsJr.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper();
-            services.AddTransient<IHackerNewsStoryService, HackerNewsStoryService>();
-            services.AddTransient<IJsonAPIClient, JsonAPIClient>();
-            services.AddTransient<HttpClient>();
-
+            services.AddHostedService<HostedHackerNewsStoryService>();
+            services.AddScoped<IHackerNewsStoryService, HackerNewsStoryService>();
+            services.AddScoped<IJsonAPIClient, JsonAPIClient>();
+            services.AddScoped<HttpClient>();
             services.AddMemoryCache();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

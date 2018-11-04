@@ -3,6 +3,7 @@ using HackerNewsJr.App.Interfaces.Infrastructure.Http;
 using HackerNewsJr.App.Interfaces.Services;
 using HackerNewsJr.App.Models;
 using HackerNewsJr.Services.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,22 +12,29 @@ namespace HackerNewsJr.Services
 {
     public class HackerNewsStoryService : IHackerNewsStoryService
     {
-        private readonly IJsonAPIClient apiClient;
-        private readonly IMapper mapper;
-
         private const string hackerNewsApiUrl =
             "https://hacker-news.firebaseio.com/v0";
 
-        public HackerNewsStoryService(IJsonAPIClient apiClient, IMapper mapper)
+        private readonly IJsonAPIClient apiClient;
+        private readonly IMapper mapper;
+        private readonly ILogger<HackerNewsStoryService> logger;
+
+
+        public HackerNewsStoryService(
+            IJsonAPIClient apiClient,
+            IMapper mapper,
+            ILogger<HackerNewsStoryService> logger)
         {
             this.apiClient = apiClient;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<Story>> GetNewStoriesAsync(int numberToRetrieve)
         {
             if (numberToRetrieve < 1) throw new ArgumentOutOfRangeException();
 
+            logger.LogInformation("Fetching latest stories.");
             var newStoryIds = await apiClient.GetAsync<int[]>($"{hackerNewsApiUrl}/newstories.json");
 
             numberToRetrieve = numberToRetrieve < newStoryIds.Length
