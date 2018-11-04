@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Footer = props => {
+const Footer = ({ searchString, onChange }) => {
   return (
     <React.Fragment>
       <br />
@@ -22,19 +23,24 @@ const Footer = props => {
           Search:
           <input
             type="text"
-            value={props.searchString}
+            value={searchString}
             size="17"
             autoCorrect="off"
             spellCheck="false"
             autoCapitalize="off"
             autoComplete="false"
-            onChange={props.onChange}
+            onChange={onChange}
           />
         </form>
         <br />
       </center>
     </React.Fragment>
   );
+};
+
+Footer.propTypes = {
+  searchString: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Footer;

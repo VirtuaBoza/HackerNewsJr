@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Highligher from 'react-highlight-words';
 
 class StoryList extends Component {
@@ -6,15 +7,15 @@ class StoryList extends Component {
     super(props);
 
     this.state = {
-      set: 0,
+      page: 1,
     };
 
     this.handleMoreClick = this.handleMoreClick.bind(this);
   }
 
   handleMoreClick() {
-    const set = this.state.set + 1;
-    this.setState({ set });
+    const page = this.state.page + 1;
+    this.setState({ page });
   }
 
   render() {
@@ -48,24 +49,21 @@ class StoryList extends Component {
                 </tr>
                 <tr>
                   <td />
-                  <td className="subtext">
-                    <span className="score">{story.score} points</span> by{' '}
-                    {story.by}
-                  </td>
+                  <td className="subtext">by {story.by}</td>
                 </tr>
                 <tr className="spacer" style={{ height: '5px' }} />
               </React.Fragment>
             ))
             .filter(
               (story, index) =>
-                index >= 30 * this.state.set &&
-                index < 30 * (this.state.set + 1),
+                index >= 30 * (this.state.page - 1) &&
+                index < 30 * this.state.page,
             )}
           <tr className="morespace" style={{ height: '10px' }} />
           <tr>
             <td />
             <td className="title">
-              {stories.length > 30 * (this.state.set + 1) && (
+              {stories.length > 30 * this.state.page && (
                 <span
                   className="morelink"
                   style={{ cursor: 'pointer' }}
@@ -81,5 +79,10 @@ class StoryList extends Component {
     );
   }
 }
+
+StoryList.propTypes = {
+  stories: PropTypes.array.isRequired,
+  searchString: PropTypes.string.isRequired,
+};
 
 export default StoryList;

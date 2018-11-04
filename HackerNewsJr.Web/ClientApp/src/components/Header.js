@@ -25,18 +25,20 @@ const Header = props => {
                 src={y18}
                 width="18"
                 height="18"
-                style={{ border: '1px white solid' }}
+                style={{ border: '1px white solid', cursor: 'pointer' }}
+                onClick={props.onClick}
                 alt="logo"
               />
             </td>
             <td style={{ lineHeight: '12pt', height: '10px' }}>
               <span className="pagetop">
-                <b className="hnname" style={{ paddingRight: 8 }}>
+                <b
+                  className="hnname"
+                  style={{ paddingRight: 8, cursor: 'pointer' }}
+                  onClick={props.onClick}
+                >
                   Hacker News Jr.
                 </b>
-                <span style={{ cursor: 'pointer' }} onClick={props.onClick}>
-                  new
-                </span>
               </span>
             </td>
           </tr>

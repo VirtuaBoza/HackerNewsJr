@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import StoryList from './components/StoryList';
 import filterObjects from './helpers/filterObjects';
+import fetchJson from './helpers/fetchJson';
 
 export default class App extends Component {
   constructor(props) {
@@ -21,45 +22,38 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.loadNewStories();
+    return this.loadNewStories();
   }
 
-  loadNewStories() {
+  async loadNewStories() {
     this.setState({ loading: true });
 
-    fetch('/api/stories/newstories/500')
-      .then(response => {
-        if (response.ok) return response.json();
-        throw response;
-      })
-      .then(stories => {
-        const validStories = stories.filter(
-          story => story && story.by && story.title && story.url && story.score,
-        );
-
-        this.setState({
-          stories: validStories,
-          filteredStories: filterObjects(
-            validStories,
-            this.state.searchString,
-            ['title'],
-          ),
-          loading: false,
-        });
-      })
-      .catch(error => {
-        this.setState({ loading: false, loadingError: error });
-        console.log(error);
+    try {
+      const stories = await fetchJson('/api/stories/newstories/500');
+      const validStories = stories.filter(
+        story => story && story.by && story.title && story.url,
+      );
+      this.setState({
+        stories: validStories,
+        filteredStories: filterObjects(validStories, this.state.searchString, [
+          'title',
+        ]),
+        loading: false,
       });
+    } catch (error) {
+      this.setState({ loading: false, loadingError: error });
+    }
   }
 
   handleSearchChange(event) {
     const searchString = event.target.value;
+    const filteredStories = filterObjects(this.state.stories, searchString, [
+      'title',
+    ]);
+
     this.setState({
       searchString,
-      filteredStories: filterObjects(this.state.stories, searchString, [
-        'title',
-      ]),
+      filteredStories,
     });
   }
 
@@ -85,14 +79,18 @@ export default class App extends Component {
               <tr>
                 <td>
                   {this.state.loading ? (
-                    'Loading...'
+                    <div id="LoadingMessage">Loading...</div>
                   ) : this.state.loadingError ? (
-                    `This isn't going to work out, bud.`
+                    <div id="LoadingFailMessage">
+                      `This isn't going to work out, bud.`
+                    </div>
                   ) : (
-                    <StoryList
-                      stories={this.state.filteredStories}
-                      searchString={this.state.searchString}
-                    />
+                    <div id="StoryList">
+                      <StoryList
+                        stories={this.state.filteredStories}
+                        searchString={this.state.searchString}
+                      />
+                    </div>
                   )}
                 </td>
               </tr>
