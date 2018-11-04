@@ -1,7 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './App';
 import { shallow } from 'enzyme';
+
+class SomeClass {
+  constructor() {}
+
+  on = () => {};
+  start = () => new Promise(() => {});
+}
 
 describe('App', () => {
   beforeEach(() => {
@@ -12,7 +18,9 @@ describe('App', () => {
 
   it('Renders loading message while loading', () => {
     // Arrange
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(
+      <App buildSignalRConnection={() => new SomeClass()} />,
+    );
 
     // Act
     wrapper.setState({ loading: true });
@@ -26,7 +34,9 @@ describe('App', () => {
   it('Renders error message when loadingError is set', () => {
     // Arrange
     fetch.mockResponse(JSON.stringify({}), { status: 500 });
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(
+      <App buildSignalRConnection={() => new SomeClass()} />,
+    );
 
     // Act
     wrapper.setState({ loading: false, loadingError: new Error() });
@@ -39,7 +49,9 @@ describe('App', () => {
 
   it('Renders StoryList when loading completes with stories', () => {
     // Arrange
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(
+      <App buildSignalRConnection={() => new SomeClass()} />,
+    );
 
     // Act
     wrapper.setState({ loading: false, stories: [], filteredStories: [] });
@@ -54,7 +66,9 @@ describe('App', () => {
     it('sets loadingError in state on fail', () => {
       // Arrange
       fetch.mockResponse(JSON.stringify({}), { status: 500 });
-      const wrapper = shallow(<App />);
+      const wrapper = shallow(
+        <App buildSignalRConnection={() => new SomeClass()} />,
+      );
 
       // Act
       return wrapper
@@ -69,7 +83,9 @@ describe('App', () => {
 
     it('sets stories and filteredStories in state', () => {
       // Arrange
-      const wrapper = shallow(<App />);
+      const wrapper = shallow(
+        <App buildSignalRConnection={() => new SomeClass()} />,
+      );
       expect(wrapper.state().stories.length).toBe(0);
       expect(wrapper.state().filteredStories.length).toBe(0);
 

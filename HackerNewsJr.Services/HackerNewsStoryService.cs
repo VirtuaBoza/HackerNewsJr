@@ -3,6 +3,7 @@ using HackerNewsJr.App.Interfaces.Infrastructure.Http;
 using HackerNewsJr.App.Interfaces.Services;
 using HackerNewsJr.App.Models;
 using HackerNewsJr.Services.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,16 +19,19 @@ namespace HackerNewsJr.Services
         private readonly IJsonAPIClient apiClient;
         private readonly IMapper mapper;
         private readonly ILogger<HackerNewsStoryService> logger;
+        private readonly IConfiguration config;
 
 
         public HackerNewsStoryService(
             IJsonAPIClient apiClient,
             IMapper mapper,
-            ILogger<HackerNewsStoryService> logger)
+            ILogger<HackerNewsStoryService> logger,
+            IConfiguration config)
         {
             this.apiClient = apiClient;
             this.mapper = mapper;
             this.logger = logger;
+            this.config = config;
         }
 
         public async Task<IEnumerable<Story>> GetNewStoriesAsync(int numberToRetrieve)
@@ -49,7 +53,7 @@ namespace HackerNewsJr.Services
                 var item =
                     await apiClient.CachedGetAsync<Item>(
                         $"{hackerNewsApiUrl}/item/{storyId}.json",
-                        TimeSpan.FromDays(30));
+                        TimeSpan.FromDays(config.GetValue("StoryCacheSlidingExpiryInDays", 3)));
 
                 if (item != null)
                 {

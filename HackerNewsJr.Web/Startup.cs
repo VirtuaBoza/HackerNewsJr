@@ -3,6 +3,7 @@ using HackerNewsJr.App.Interfaces.Infrastructure.Http;
 using HackerNewsJr.App.Interfaces.Services;
 using HackerNewsJr.Infrastructure.Http;
 using HackerNewsJr.Services;
+using HackerNewsJr.Services.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace HackerNewsJr.Web
             services.AddMemoryCache();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR().AddAzureSignalR();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -57,7 +59,10 @@ namespace HackerNewsJr.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<NewStoriesHub>("/newstories");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

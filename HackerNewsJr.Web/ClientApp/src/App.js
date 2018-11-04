@@ -19,33 +19,47 @@ export default class App extends Component {
 
     this.loadNewStories = this.loadNewStories.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.subscribeToNewStories = this.subscribeToNewStories.bind(this);
+    this.setStories = this.setStories.bind(this);
   }
 
   componentDidMount() {
     this.loadNewStories();
+    this.subscribeToNewStories();
   }
 
   loadNewStories() {
     this.setState({ loading: true });
 
     return fetchJson('/api/stories/newstories/500')
-      .then(stories => {
-        const validStories = stories.filter(
-          story => story && story.by && story.title && story.url,
-        );
-        this.setState({
-          stories: validStories,
-          filteredStories: filterObjects(
-            validStories,
-            this.state.searchString,
-            ['title'],
-          ),
-          loading: false,
-        });
-      })
+      .then(this.setStories)
       .catch(error => {
         this.setState({ loading: false, loadingError: error });
       });
+  }
+
+  subscribeToNewStories() {
+    var connection = this.props.buildSignalRConnection('/newstories');
+    connection.on('ReceiveNewStories', newStories => {
+      const stories = [...newStories, ...this.state.stories];
+      this.setStories(stories);
+    });
+    connection.start().catch(error => {
+      return console.error(error.toString());
+    });
+  }
+
+  setStories(stories) {
+    const validStories = stories.filter(
+      story => story && story.by && story.title && story.url,
+    );
+    this.setState({
+      stories: validStories,
+      filteredStories: filterObjects(validStories, this.state.searchString, [
+        'title',
+      ]),
+      loading: false,
+    });
   }
 
   handleSearchChange(event) {
