@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,19 +16,33 @@ namespace HackerNewsJr.Services
 
         public HostedHackerNewsStoryService(
             ILogger<HostedHackerNewsStoryService> logger,
-            IServiceProvider services)
+            IServiceProvider services,
+            IOptions<HackerNewsServiceOptions> optionsAccessor)
         {
             this.logger = logger;
             Services = services;
+            Options = optionsAccessor.Value;
         }
 
         public IServiceProvider Services { get; }
+        public HackerNewsServiceOptions Options { get; }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             logger.LogInformation("Starting timed HackerNewsStoryService.");
 
-            timer = new Timer(async state =>
+            timer = new Timer(
+                RefreshCache(),
+                null,
+                TimeSpan.Zero,
+                TimeSpan.FromSeconds(Options.StoryCacheRefreshInSeconds));
+
+            return Task.CompletedTask;
+        }
+
+        private TimerCallback RefreshCache()
+        {
+            return async state =>
             {
                 using (var scope = Services.CreateScope())
                 {
@@ -35,9 +50,7 @@ namespace HackerNewsJr.Services
                         .GetRequiredService<IHackerNewsStoryService>();
                     await hackerNewsStoryService.GetNewStoriesAsync(500);
                 }
-            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
-
-            return Task.CompletedTask;
+            };
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
