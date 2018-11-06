@@ -78,7 +78,6 @@ describe('StoryList', () => {
         onMoreClick={handleClick}
       />,
     );
-    wrapper.setProps({ page: 1 });
 
     // Act
     wrapper.find('.morelink').simulate('click');
