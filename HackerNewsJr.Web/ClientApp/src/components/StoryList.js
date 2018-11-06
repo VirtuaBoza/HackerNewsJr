@@ -12,33 +12,40 @@ const StoryList = ({ stories, searchString, page, onMoreClick }) => {
       style={{ textAlign: 'left' }}
     >
       <tbody>
-        {stories
-          .map((story, index) => (
-            <React.Fragment key={story.id}>
-              <tr className="athing">
-                <td align="right" valign="top" className="title">
-                  <span className="rank">{index + 1}.</span>
-                </td>
-                <td className="title">
-                  <a href={story.url} className="storylink">
-                    <Highligher
-                      highlightClassName="highlighted"
-                      searchWords={[searchString]}
-                      textToHighlight={story.title}
-                    />
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td />
-                <td className="subtext">by {story.by}</td>
-              </tr>
-              <tr className="spacer" style={{ height: '5px' }} />
-            </React.Fragment>
-          ))
-          .filter(
-            (story, index) => index >= 30 * (page - 1) && index < 30 * page,
-          )}
+        {stories.length === 0 ? (
+          <tr>
+            <td>No stories match your search.</td>
+          </tr>
+        ) : (
+          stories
+            .map((story, index) => (
+              <React.Fragment key={story.id}>
+                <tr className="athing">
+                  <td align="right" valign="top" className="title">
+                    <span className="rank">{index + 1}.</span>
+                  </td>
+                  <td className="title">
+                    <a href={story.url} className="storylink">
+                      <Highligher
+                        highlightClassName="highlighted"
+                        searchWords={[searchString]}
+                        textToHighlight={story.title}
+                      />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td />
+                  <td className="subtext">by {story.by}</td>
+                </tr>
+                <tr className="spacer" style={{ height: '5px' }} />
+              </React.Fragment>
+            ))
+            .filter(
+              (story, index) => index >= 30 * (page - 1) && index < 30 * page,
+            )
+        )}
+
         <tr className="morespace" style={{ height: '10px' }} />
         <tr>
           <td />
