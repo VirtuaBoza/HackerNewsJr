@@ -15,10 +15,12 @@ export default class App extends Component {
       loading: true,
       loadingError: null,
       searchString: '',
+      page: 1,
     };
 
     this.loadNewStories = this.loadNewStories.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +50,11 @@ export default class App extends Component {
       });
   }
 
+  handleMoreButtonClick() {
+    const page = this.state.page + 1;
+    this.setState({ page });
+  }
+
   handleSearchChange(event) {
     const searchString = event.target.value;
     const filteredStories = filterObjects(this.state.stories, searchString, [
@@ -57,6 +64,7 @@ export default class App extends Component {
     this.setState({
       searchString,
       filteredStories,
+      page: 1,
     });
   }
 
@@ -92,6 +100,8 @@ export default class App extends Component {
                       <StoryList
                         stories={this.state.filteredStories}
                         searchString={this.state.searchString}
+                        page={this.state.page}
+                        onMoreClick={this.handleMoreButtonClick}
                       />
                     </div>
                   )}

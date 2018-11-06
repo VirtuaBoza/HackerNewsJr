@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import y18 from '../images/y18.gif';
 
-const Header = props => {
+const Header = ({ onClick }) => {
   return (
     <header>
       <table
@@ -26,7 +27,7 @@ const Header = props => {
                 width="18"
                 height="18"
                 style={{ border: '1px white solid', cursor: 'pointer' }}
-                onClick={props.onClick}
+                onClick={onClick}
                 alt="logo"
               />
             </td>
@@ -35,7 +36,7 @@ const Header = props => {
                 <b
                   className="hnname"
                   style={{ paddingRight: 8, cursor: 'pointer' }}
-                  onClick={props.onClick}
+                  onClick={onClick}
                 >
                   Hacker News Jr.
                 </b>
@@ -46,6 +47,10 @@ const Header = props => {
       </table>
     </header>
   );
+};
+
+Header.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Header;

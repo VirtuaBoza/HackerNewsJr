@@ -8,7 +8,14 @@ describe('StoryList', () => {
     const stories = [{ id: 1, title: 'title' }, { id: 2, title: 'title' }];
 
     // Act
-    const wrapper = shallow(<StoryList stories={stories} searchString="" />);
+    const wrapper = shallow(
+      <StoryList
+        stories={stories}
+        searchString=""
+        page={1}
+        onMoreClick={() => {}}
+      />,
+    );
 
     // Assert
     expect(wrapper.find('.athing').length).toBe(2);
@@ -22,7 +29,14 @@ describe('StoryList', () => {
     }
 
     // Act
-    const wrapper = shallow(<StoryList stories={stories} searchString="" />);
+    const wrapper = shallow(
+      <StoryList
+        stories={stories}
+        searchString=""
+        page={1}
+        onMoreClick={() => {}}
+      />,
+    );
 
     // Assert
     expect(wrapper.find('.morelink').length).toBe(1);
@@ -36,25 +50,40 @@ describe('StoryList', () => {
     }
 
     // Act
-    const wrapper = shallow(<StoryList stories={stories} searchString="" />);
+    const wrapper = shallow(
+      <StoryList
+        stories={stories}
+        searchString=""
+        page={1}
+        onMoreClick={() => {}}
+      />,
+    );
 
     // Assert
     expect(wrapper.find('.morelink').length).toBe(0);
   });
 
-  it('Increments the page number in state when the More button is clicked', () => {
+  it('Calls click handler when the More button is clicked', () => {
     // Arrange
     const stories = [];
     for (var i = 0; i < 31; i++) {
       stories.push({ id: i, title: 'title' });
     }
-    const wrapper = shallow(<StoryList stories={stories} searchString="" />);
-    wrapper.setState({ page: 1 });
+    const handleClick = jest.fn();
+    const wrapper = shallow(
+      <StoryList
+        stories={stories}
+        searchString=""
+        page={1}
+        onMoreClick={handleClick}
+      />,
+    );
+    wrapper.setProps({ page: 1 });
 
     // Act
     wrapper.find('.morelink').simulate('click');
 
     // Assert
-    expect(wrapper.state().page).toBe(2);
+    expect(handleClick.mock.calls.length).toBe(1);
   });
 });
