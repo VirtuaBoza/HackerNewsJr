@@ -93,7 +93,7 @@ export default class App extends Component {
                     <div id="LoadingMessage">Loading...</div>
                   ) : this.state.loadingError ? (
                     <div id="LoadingFailMessage">
-                      `This isn't going to work out, bud.`
+                      This isn't going to work out, bud.
                     </div>
                   ) : (
                     <div id="StoryList">
