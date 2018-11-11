@@ -31,9 +31,6 @@ The backend is an ASP.NET Core 2.1 application tested with MSTest and Moq. The s
 - **HackerNewsJr.Services** is where you'll find the core application logic. Classes here implement HackerNewsJr.App interfaces (they could have been part of the HackerNewsJr.App project, but keeping them separated ensures that the core *.App project doesn't take on any dependencies). This project's only intra-solution dependency is on HackerNewsJr.App.
 - **HackerNewsJr.Infrastructure** contains concrete interface implementations which provide abstractions to infrastructure concerns. The only use in this case is abstracting the http client. Like HackerNewsJr.Services, this project's only intra-solution dependency is HackerNewsJr.App.
 
-### DevOps/Hosting
-The app is hosted on Azure with Azure App Service at https://hackernewsjr.azurewebsites.net/, and it's built and deployed to that target by Azure DevOps pipelines.
-
 ### Other Considerations
 - My first pass at this challenge was accomplished with just client-side code, but this didn't demonstrate any C#/.NET knowledge. Also, given the way the HackerNews API is set up, fetching those stories was taking a long time. Using the ASP.NET Core app as a proxy, I'm able to have the server periodically fetch and cache responses from HackerNews API. Since I'm only displaying the title and author of the stories and not dynamic data like score or comments, this works just fine.
 - I used React instead of Angular because I wasn't sure how much time I would be able to spend on this challenge, and I'm accustomed to using React almost every day, so I figured it was a safe choice since I wouldn't need to spend time getting up to speed.
